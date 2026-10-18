@@ -1,0 +1,96 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-arabic: 'Tajawal', 'Cairo', 'Plus Jakarta Sans', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+  
+  html, body {
+    font-family: var(--font-arabic);
+    line-height: 1.65;
+    letter-spacing: 0;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color-scheme: dark;
+    word-break: normal;
+    overflow-wrap: break-word;
+  }
+
+  [dir="rtl"] {
+    font-family: var(--font-arabic);
+    letter-spacing: 0px !important;
+    line-height: 1.7;
+  }
+
+  [dir="ltr"] body,
+  [dir="ltr"] {
+    font-family: var(--font-sans);
+    line-height: 1.5;
+  }
+
+  /* Isolate bidirectional text to prevent Arabic and English words from colliding */
+  bdi, .isolate-bidi {
+    unicode-bidi: isolate;
+    display: inline-block;
+  }
+
+  /* Controlled text handling for actions without forcing global nowrap */
+  .btn-single-line {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+
+/* Gemini Ambient Aurora & Dissolve Animations */
+@keyframes geminiGlow {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.05) translate3d(0, -4px, 0);
+  }
+}
+
+@keyframes geminiPulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 15px rgba(99, 102, 241, 0.4));
+  }
+  50% {
+    filter: drop-shadow(0 0 28px rgba(16, 185, 129, 0.5));
+  }
+}
+
+.gemini-ambient {
+  animation: geminiGlow 6s ease-in-out infinite;
+}
+
+.gemini-shimmer {
+  background-size: 200% auto;
+  animation: geminiPulse 4s ease-in-out infinite;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.2);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.4);
+}
+
+/* Smooth code font */
+code, pre, .font-mono {
+  font-family: var(--font-mono);
+}
