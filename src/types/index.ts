@@ -103,7 +103,7 @@ export interface UserProfile {
   name: string;
   email: string;
   avatar: string;
-  provider: 'google' | 'email' | 'github' | 'guest';
+  provider: 'google' | 'email' | 'github' | 'apple' | 'guest' | 'passkey';
   plan: string;
   role: 'owner' | 'developer' | 'architect';
   apiKey: string;

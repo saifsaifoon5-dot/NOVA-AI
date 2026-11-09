@@ -13,6 +13,7 @@ import {
   LayoutGrid,
   Minimize2,
   Menu,
+  ShieldCheck,
 } from 'lucide-react';
 
 interface QuickTab {
@@ -26,12 +27,12 @@ interface QuickTab {
 }
 
 const QUICK_TABS: QuickTab[] = [
-  { id: 'build-studio', labelEn: 'App Builder', labelAr: 'استوديو البناء', icon: Hammer, badgeEn: 'Core', badgeAr: 'الأساسي', badgeType: 'core' },
-  { id: 'ai-lab', labelEn: 'AI Lab', labelAr: 'مختبر AI', icon: Bot, badgeEn: 'NOVA', badgeAr: 'نوفا', badgeType: 'gemini' },
-  { id: 'dashboard', labelEn: 'Mission Control', labelAr: 'لوحة المشاريع', icon: LayoutDashboard },
-  { id: 'database', labelEn: 'Database', labelAr: 'قواعد البيانات', icon: Database },
-  { id: 'deployment', labelEn: 'Cloud Run', labelAr: 'النشر السحابي', icon: CloudUpload },
-  { id: 'billing', labelEn: 'Billing & Plans', labelAr: 'الاشتراكات وبوابة الدفع', icon: CreditCard, badgeEn: 'Secure Pay', badgeAr: 'دفع آمن', badgeType: 'pay' },
+  { id: 'dashboard', labelEn: 'Overview', labelAr: 'لوحة التحكم', icon: LayoutDashboard },
+  { id: 'build-studio', labelEn: 'Creator', labelAr: 'إنشاء المنصات', icon: Hammer, badgeEn: 'Instant', badgeAr: 'فوري', badgeType: 'core' },
+  { id: 'ai-lab', labelEn: 'Services & Points', labelAr: 'رصيد النقاط والخدمات', icon: Bot, badgeEn: 'VIP', badgeAr: 'خدمات', badgeType: 'gemini' },
+  { id: 'billing', labelEn: 'Payments & Plans', labelAr: 'بوابة الدفع والاشتراكات', icon: CreditCard, badgeEn: 'Dodo Pay', badgeAr: 'دفع حقيقي', badgeType: 'pay' },
+  { id: 'settings', labelEn: 'Security Guard', labelAr: 'حواجز الأمان', icon: ShieldCheck, badgeEn: '99.8%', badgeAr: 'محمي', badgeType: 'pay' },
+  { id: 'deployment', labelEn: 'Live Web App', labelAr: 'الموقع المستقل', icon: CloudUpload },
 ];
 
 export const TopSegmentBar: React.FC = () => {
@@ -88,7 +89,7 @@ export const TopSegmentBar: React.FC = () => {
 
                 {(lang === 'ar' ? item.badgeAr : item.badgeEn) && (
                   <span
-                    className={`text-[9px] font-mono px-1 py-0.2 rounded ${
+                    className={`hidden lg:inline text-[9px] font-mono px-1 py-0.2 rounded ${
                       item.badgeType === 'pay'
                         ? 'bg-amber-400/10 text-amber-300 border border-amber-400/20'
                         : item.badgeType === 'gemini'

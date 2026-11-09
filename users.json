@@ -1,0 +1,56 @@
+[
+  {
+    "id": "usr_saif_01",
+    "name": "سيف (Saif)",
+    "email": "saifsaifoon5@gmail.com",
+    "phone": "+966 50 123 4567",
+    "city": "الرياض",
+    "address": "حي الملقا - شارع وادي حنيفة",
+    "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&auto=format&fit=crop&q=80",
+    "role": "admin",
+    "loyaltyPoints": 1250,
+    "createdAt": "2026-10-21T10:39:56.337Z",
+    "token": "tok_sec.eyJpZCI6InVzcl9zYWlmXzAxIiwiZW1haWwiOiJzYWlmc2FpZm9vbjVAZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzkzOTcyNTg2OTM3LCJleHAiOjE3OTQ1NzczODY5Mzd9.4KEQ3VrNetpnVNMLErjii60HCMqaCnjYQTE7RmnuprE",
+    "twoFactorEnabled": false,
+    "twoFactorBackupCode": "739201",
+    "activeSessions": [
+      {
+        "id": "sess_google_1792856071850",
+        "device": "Google Authenticated Client (256-Bit SSL)",
+        "browser": "Chrome 126 / Google Accounts Identity",
+        "ip": "127.0.0.1",
+        "location": "الرياض، المملكة العربية السعودية",
+        "lastActive": "الآن",
+        "isCurrent": true
+      }
+    ],
+    "passwordSalt": "e3415886963c39dbd89ff31e23d47c77",
+    "passwordHash": "b9190e1cbeae4a8f33d4638256b76e882d31f8e510b10ccede187b719909865e52ad320615dab50b76272d23ec59f73fca735f794d1d291aeae6051402e890ce"
+  },
+  {
+    "id": "usr_client_02",
+    "name": "فهد العتيبي",
+    "email": "client@example.com",
+    "password": "password123",
+    "phone": "+966 55 987 6543",
+    "city": "جدة",
+    "address": "حي الشاطئ - طريق الكورنيش",
+    "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&auto=format&fit=crop&q=80",
+    "role": "customer",
+    "loyaltyPoints": 450,
+    "createdAt": "2026-10-21T10:39:56.337Z",
+    "twoFactorEnabled": false,
+    "twoFactorBackupCode": "739201",
+    "activeSessions": [
+      {
+        "id": "sess_cur_saif",
+        "device": "Executive Workstation (macOS 15)",
+        "browser": "Chrome 126.0",
+        "ip": "188.52.140.21",
+        "location": "الرياض، المملكة العربية السعودية",
+        "lastActive": "الآن",
+        "isCurrent": true
+      }
+    ]
+  }
+]

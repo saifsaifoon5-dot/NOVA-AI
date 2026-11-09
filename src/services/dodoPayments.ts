@@ -9,4 +9,5 @@ export {
   createCheckoutSession as createDodoCheckoutSession,
   verifyPaymentSession as verifyDodoSession,
   testGatewayKey as testDodoKey,
+  testGatewayKey as testDodoApiKey,
 } from './paymentGateway';

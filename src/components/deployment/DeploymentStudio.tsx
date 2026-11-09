@@ -159,7 +159,7 @@ export const DeploymentStudio: React.FC = () => {
               <div className="flex items-center gap-2.5">
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
                 <span className="text-xs font-mono font-bold tracking-wider text-emerald-400 uppercase">
-                  {lang === 'ar' ? 'رابط الموقع المستقل (بدون جيميناي بيلد)' : 'DEDICATED STANDALONE WEB URL'}
+                  {lang === 'ar' ? 'رابط الموقع المستقل المباشر' : 'DEDICATED STANDALONE WEB URL'}
                 </span>
                 <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-800">
                   {lang === 'ar' ? 'يعمل ومستضاف بشكل دائم' : 'Live & Active'}
@@ -170,8 +170,8 @@ export const DeploymentStudio: React.FC = () => {
               </h3>
               <p className="text-xs sm:text-sm text-zinc-400 max-w-3xl leading-relaxed">
                 {lang === 'ar'
-                  ? 'هذا الرابط مخصص للنشر المباشر. عند الدخول إليه يتم عرض موقعك فقط كصفحة ويب كاملة ونقية، دون شريط أدوات، دون محرر، ودون أي واجهات تخص جيميناي بيلد!'
-                  : 'This is your dedicated public web URL. When opened, it renders ONLY your pure web application with zero builder chrome, zero IDE headers, and zero AI studio dependencies.'}
+                  ? 'هذا الرابط مخصص للنشر المباشر. عند الدخول إليه يتم عرض موقعك فقط كصفحة ويب كاملة ونقية، دون شريط أدوات، دون محرر، ودون أي واجهات تحكم إضافية.'
+                  : 'This is your dedicated public web URL. When opened, it renders ONLY your pure web application with zero builder chrome, zero IDE headers, and zero external dependencies.'}
               </p>
             </div>
 

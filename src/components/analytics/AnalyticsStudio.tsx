@@ -74,10 +74,10 @@ export const AnalyticsStudio: React.FC = () => {
 
             <div className="space-y-2.5">
               {[
-                { name: 'Gemini 3.8 Flash', share: 72, count: '898,840 req' },
-                { name: 'Gemini 3.1 Pro', share: 18, count: '224,710 req' },
-                { name: 'Imagen 3 & Veo', share: 7, count: '87,380 req' },
-                { name: 'Audio & Transcribe', share: 3, count: '37,460 req' },
+                { name: 'NOVA Architecture Core', share: 72, count: '898,840 req' },
+                { name: 'NOVA Deep Reasoning', share: 18, count: '224,710 req' },
+                { name: 'Vector Engine & RAG', share: 7, count: '87,380 req' },
+                { name: 'PostgreSQL Sync Engine', share: 3, count: '37,460 req' },
               ].map((m, idx) => (
                 <div key={idx} className="space-y-1">
                   <div className="flex justify-between text-xs text-zinc-300">

@@ -88,8 +88,16 @@ export const WelcomeParticleHero: React.FC = () => {
 
       ctx.clearRect(0, 0, width, height);
 
-      // Subtle background grid lines
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.02)';
+      // Deep obsidian ambient vignette
+      const bgGrad = ctx.createRadialGradient(width / 2, height / 2, 10, width / 2, height / 2, width * 0.7);
+      bgGrad.addColorStop(0, 'rgba(15, 23, 42, 0.85)');
+      bgGrad.addColorStop(0.5, 'rgba(9, 9, 11, 0.95)');
+      bgGrad.addColorStop(1, 'rgba(3, 7, 18, 1)');
+      ctx.fillStyle = bgGrad;
+      ctx.fillRect(0, 0, width, height);
+
+      // High-contrast architectural grid lines with subtle intersections
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.04)';
       ctx.lineWidth = 1;
       const gridSize = 40;
       for (let x = 0; x < width; x += gridSize) {
@@ -98,16 +106,22 @@ export const WelcomeParticleHero: React.FC = () => {
         ctx.lineTo(x, height);
         ctx.stroke();
       }
+      for (let y = 0; y < height; y += gridSize) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(width, y);
+        ctx.stroke();
+      }
 
-      // Update and project 3D particles
-      const projected: { px: number; py: number; alpha: number; size: number }[] = [];
+      // Update and project 3D luminous particles
+      const projected: { px: number; py: number; alpha: number; size: number; isCyan: boolean }[] = [];
 
       for (let i = 0; i < PARTICLE_COUNT; i++) {
         const p = particles[i];
 
         // Move particle
-        p.x += p.vx + mouseNormX * 0.3;
-        p.y += p.vy + mouseNormY * 0.3;
+        p.x += p.vx + mouseNormX * 0.4;
+        p.y += p.vy + mouseNormY * 0.4;
         p.z += p.vz;
 
         // Boundary wrap
@@ -123,19 +137,23 @@ export const WelcomeParticleHero: React.FC = () => {
         const px = width / 2 + p.x * scale;
         const py = height / 2 + p.y * scale;
 
-        const alpha = Math.min(1, Math.max(0.1, (1 - p.z / 500) * p.baseAlpha));
-        const pSize = p.size * scale * 1.4;
+        const alpha = Math.min(1, Math.max(0.2, (1 - p.z / 500) * p.baseAlpha * 1.5));
+        const pSize = p.size * scale * 1.8;
+        const isCyan = i % 2 === 0;
 
-        projected.push({ px, py, alpha, size: pSize });
+        projected.push({ px, py, alpha, size: pSize, isCyan });
 
-        // Draw particle node
+        // Draw luminous particle node
         ctx.beginPath();
         ctx.arc(px, py, pSize, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(228, 228, 231, ${alpha})`;
+        ctx.fillStyle = isCyan ? `rgba(56, 189, 248, ${alpha})` : `rgba(52, 211, 153, ${alpha})`;
+        ctx.shadowColor = isCyan ? '#38bdf8' : '#34d399';
+        ctx.shadowBlur = 8;
         ctx.fill();
+        ctx.shadowBlur = 0;
       }
 
-      // Draw interactive connections
+      // Draw high-contrast interactive laser connections
       for (let i = 0; i < projected.length; i++) {
         for (let j = i + 1; j < projected.length; j++) {
           const p1 = projected[i];
@@ -144,13 +162,15 @@ export const WelcomeParticleHero: React.FC = () => {
           const dy = p1.py - p2.py;
           const dist = Math.sqrt(dx * dx + dy * dy);
 
-          if (dist < 75) {
-            const lineAlpha = (1 - dist / 75) * 0.15;
+          if (dist < 85) {
+            const lineAlpha = (1 - dist / 85) * 0.35;
             ctx.beginPath();
             ctx.moveTo(p1.px, p1.py);
             ctx.lineTo(p2.px, p2.py);
-            ctx.strokeStyle = `rgba(228, 228, 231, ${lineAlpha})`;
-            ctx.lineWidth = 0.8;
+            ctx.strokeStyle = p1.isCyan
+              ? `rgba(56, 189, 248, ${lineAlpha})`
+              : `rgba(52, 211, 153, ${lineAlpha})`;
+            ctx.lineWidth = 1.2;
             ctx.stroke();
           }
         }
@@ -169,72 +189,76 @@ export const WelcomeParticleHero: React.FC = () => {
   }, []);
 
   return (
-    <div className="relative rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-900/40 select-none shadow-lg">
-      {/* 3D Canvas Layer */}
+    <div className="relative rounded-3xl overflow-hidden border border-zinc-800 bg-zinc-950 select-none shadow-2xl">
+      {/* 3D Canvas Layer with deep contrast */}
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 w-full h-full pointer-events-auto cursor-crosshair opacity-75"
+        className="absolute inset-0 w-full h-full pointer-events-auto cursor-crosshair opacity-90"
       />
 
       {/* Hero Content Overlay */}
-      <div className="relative z-10 p-6 sm:p-8 flex flex-col justify-between min-h-[280px]">
-        <div className="space-y-2.5 max-w-2xl">
-          {/* Status Kicker */}
-          <div className="flex items-center gap-2 text-[11px] text-zinc-400 font-mono">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span>LGS Unified Engine v2.6</span>
-            <span>·</span>
-            <span>Gemini 3.8 Flash Online</span>
-            <span>·</span>
-            <span>Secure Payments Ready</span>
+      <div className="relative z-10 p-6 sm:p-8 lg:p-10 flex flex-col justify-between min-h-[300px]">
+        <div className="space-y-3 max-w-3xl">
+          {/* Status Kicker with Official Badges */}
+          <div className="flex flex-wrap items-center gap-2 text-[11px] font-mono">
+            <span className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-950/80 border border-emerald-800 text-emerald-300 font-bold">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span>{lang === 'ar' ? 'نظام NOVA السيادي v2.8' : 'NOVA Sovereign Engine v2.8'}</span>
+            </span>
+            <span className="px-2.5 py-0.5 rounded-full bg-zinc-900 border border-zinc-700 text-zinc-300 font-bold">
+              {lang === 'ar' ? 'محرك NOVA المعماري' : 'NOVA Architecture Engine'}
+            </span>
+            <span className="px-2.5 py-0.5 rounded-full bg-zinc-900 border border-zinc-700 text-zinc-300 font-bold">
+              {lang === 'ar' ? 'بوابات سداد مشفرة 3D Secure' : '3D Secure Payments & ZATCA'}
+            </span>
           </div>
 
-          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-white leading-tight">
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-extrabold tracking-tight text-white leading-tight">
             {lang === 'ar'
-              ? 'مرحباً بك في استوديو Lovable Gemini الموحد'
-              : 'Welcome to Lovable Gemini Studio'}
+              ? 'استوديو هندسة وتوليد المنظومات البرمجية بالذكاء الاصطناعي'
+              : 'Autonomous Software Engineering & Full-Stack AI Studio'}
           </h1>
 
-          <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed max-w-xl">
+          <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed max-w-2xl font-medium">
             {lang === 'ar'
-              ? 'منظومة متكاملة لبناء وتخصيص التطبيقات بالوصف النصي (Prompt-to-App)، تشغيل نماذج Gemini في مختبر متقدم، وتفعيل الاشتراكات الحقيقية وبوابة الدفع المشفرة المعتمدة.'
-              : 'End-to-end full-stack app synthesis, Gemini 3.8 multimodal AI playground, and automated serverless deployment with native enterprise secure payments.'}
+              ? 'توليد وبناء التطبيقات البرمجية الحقيقية من الصفر، تفكيك المتطلبات والمهام تلقائياً، تكامل قواعد بيانات PostgreSQL، وربط بوابات الدفع المشفرة المعتمدة مع إصدار فواتير ZATCA الإلكترونية.'
+              : 'Full-stack application synthesis from scratch, autonomous task planning & triage, PostgreSQL relational schemas, and enterprise payment gateways with ZATCA Phase 2 compliance.'}
           </p>
         </div>
 
         {/* Quick Launchpad Buttons */}
-        <div className="pt-6 flex flex-wrap items-center gap-2.5">
+        <div className="pt-6 flex flex-wrap items-center gap-3">
           <button
             onClick={() => setActiveTab('build-studio')}
-            className="px-4 py-2 rounded-xl bg-zinc-100 hover:bg-white text-zinc-950 text-xs font-semibold flex items-center gap-2 transition shadow-sm"
+            className="px-5 py-2.5 rounded-xl bg-white hover:bg-zinc-100 text-zinc-950 text-xs font-bold flex items-center gap-2 transition shadow-md hover:scale-[1.02] active:scale-95 cursor-pointer"
           >
-            <Hammer className="w-3.5 h-3.5 text-zinc-950" />
-            <span>{lang === 'ar' ? 'تشغيل استوديو البناء' : 'Launch App Builder'}</span>
-            <ArrowRight className="w-3 h-3 text-zinc-950" />
+            <Hammer className="w-4 h-4 text-zinc-950" />
+            <span>{lang === 'ar' ? 'تشغيل استوديو البناء الذكي' : 'Launch Build Studio'}</span>
+            <ArrowRight className="w-3.5 h-3.5 text-zinc-950" />
           </button>
 
           <button
             onClick={() => setActiveTab('ai-lab')}
-            className="px-4 py-2 rounded-xl bg-zinc-900/90 hover:bg-zinc-800 text-zinc-200 text-xs font-semibold flex items-center gap-2 border border-zinc-700/80 transition"
+            className="px-4 py-2.5 rounded-xl bg-zinc-900/90 hover:bg-zinc-850 text-zinc-200 text-xs font-bold flex items-center gap-2 border border-zinc-750 transition active:scale-95 cursor-pointer"
           >
-            <Bot className="w-3.5 h-3.5 text-zinc-400" />
-            <span>{lang === 'ar' ? 'مختبر AI والوكلاء' : 'Open AI Lab & Agents'}</span>
+            <Bot className="w-4 h-4 text-indigo-400" />
+            <span>{lang === 'ar' ? 'مختبر النماذج والوكلاء' : 'AI Models & Agents Lab'}</span>
           </button>
 
           <button
             onClick={() => setActiveTab('billing')}
-            className="px-4 py-2 rounded-xl bg-zinc-900/90 hover:bg-zinc-800 text-zinc-200 text-xs font-semibold flex items-center gap-2 border border-zinc-700/80 transition"
+            className="px-4 py-2.5 rounded-xl bg-zinc-900/90 hover:bg-zinc-850 text-zinc-200 text-xs font-bold flex items-center gap-2 border border-zinc-750 transition active:scale-95 cursor-pointer"
           >
-            <CreditCard className="w-3.5 h-3.5 text-amber-400" />
+            <CreditCard className="w-4 h-4 text-amber-400" />
             <span>{lang === 'ar' ? 'الاشتراكات وبوابة الدفع' : 'Billing & Payment Gateway'}</span>
           </button>
 
           <button
             onClick={() => setActiveTab('deployment')}
-            className="px-4 py-2 rounded-xl bg-zinc-900/90 hover:bg-zinc-800 text-zinc-200 text-xs font-semibold flex items-center gap-2 border border-zinc-700/80 transition"
+            className="px-4 py-2.5 rounded-xl bg-zinc-900/90 hover:bg-zinc-850 text-zinc-200 text-xs font-bold flex items-center gap-2 border border-zinc-750 transition active:scale-95 cursor-pointer"
           >
-            <CloudUpload className="w-3.5 h-3.5 text-emerald-400" />
-            <span>{lang === 'ar' ? 'النشر على Cloud Run' : 'Deployments & PWA'}</span>
+            <CloudUpload className="w-4 h-4 text-emerald-400" />
+            <span>{lang === 'ar' ? 'النشر السحابي و PWA' : 'Cloud Deployments & PWA'}</span>
           </button>
         </div>
       </div>

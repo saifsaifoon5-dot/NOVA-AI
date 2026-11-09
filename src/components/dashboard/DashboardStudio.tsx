@@ -129,8 +129,8 @@ export const DashboardStudio: React.FC = () => {
               <Bot className="w-5 h-5 text-indigo-400" />
               <ArrowRight className="w-3.5 h-3.5 text-zinc-500 group-hover:text-zinc-300 group-hover:translate-x-0.5 transition" />
             </div>
-            <h4 className="text-xs font-semibold text-zinc-200">Gemini 3.8 AI Lab</h4>
-            <p className="text-[11px] text-zinc-400 mt-0.5">Multimodal playground, OCR & agent chains</p>
+            <h4 className="text-xs font-semibold text-zinc-200">NOVA AI Lab</h4>
+            <p className="text-[11px] text-zinc-400 mt-0.5">Architecture engine playground & agent chains</p>
           </div>
 
           <div 

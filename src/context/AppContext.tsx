@@ -22,6 +22,8 @@ interface AppContextType {
   toggleSidebar: () => void;
   isSidebarCollapsed: boolean;
   setIsSidebarCollapsed: React.Dispatch<React.SetStateAction<boolean>>;
+  paymentApiKey: string;
+  setPaymentApiKey: (key: string) => void;
   dodoKey: string;
   setDodoKey: (key: string) => void;
   userPlan: string;
@@ -34,6 +36,7 @@ interface AppContextType {
   setPublishedUrl: (url: string) => void;
   isPublishing: boolean;
   publishWebSite: (customHtml?: string, customTitle?: string) => Promise<string | null>;
+  testPaymentKey: (keyToTest?: string) => Promise<{ valid: boolean; message: string }>;
   testDodoKey: (keyToTest?: string) => Promise<{ valid: boolean; message: string }>;
   environment: Environment;
   setEnvironment: (env: Environment) => void;
@@ -61,18 +64,59 @@ interface AppContextType {
   loginUser: (userData: Partial<UserProfile>) => void;
   logoutUser: () => void;
   t: (key: string) => string;
+  // Global Real-time Build Agent Progress State
+  globalBuildState: GlobalBuildState;
+  setGlobalBuildState: React.Dispatch<React.SetStateAction<GlobalBuildState>>;
+  updateGlobalBuildProgress: (update: Partial<GlobalBuildState>) => void;
+  resetGlobalBuildState: () => void;
+}
+
+export interface GlobalBuildState {
+  isBuilding: boolean;
+  progress: number;
+  phase: 'INIT' | 'REASONING' | 'DATABASE' | 'PAYMENT_SECURITY' | 'CODEGEN' | 'VERIFY' | 'DEPLOYED' | 'ERROR' | 'idle';
+  statusMessage: string;
+  activeFile: string;
+  codeSnippet: string;
+  modelUsed: string;
+  buildChecksum: string | null;
+  appName?: string;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [lang, setLang] = useState<Language>('en');
+  const [lang, setLangState] = useState<Language>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('nova_lang');
+      if (saved === 'ar' || saved === 'en') return saved;
+    }
+    return 'ar';
+  });
+
+  const setLang = (newLang: Language) => {
+    setLangState(newLang);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('nova_lang', newLang);
+      document.documentElement.dir = newLang === 'ar' ? 'rtl' : 'ltr';
+      document.documentElement.lang = newLang;
+    }
+  };
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+      document.documentElement.lang = lang;
+    }
+  }, [lang]);
   const [theme, setTheme] = useState<ThemeMode>('dark');
   const [activeTab, setActiveTab] = useState<AppTab>('dashboard');
   const [viewMode, setViewMode] = useState<ViewMode>('standard');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
-  const [dodoKey, setDodoKey] = useState<string>('');
+  const [paymentApiKey, setPaymentApiKey] = useState<string>('');
+  const dodoKey = paymentApiKey;
+  const setDodoKey = setPaymentApiKey;
   const [userPlan, setUserPlan] = useState<string>('Pro Builder');
   const [subscriptionStatus, setSubscriptionStatus] = useState<'active' | 'cancelled'>('active');
   const [nextBillingDate, setNextBillingDate] = useState<string>('2026-11-11');
@@ -88,6 +132,35 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     return '/live';
   });
   const [isPublishing, setIsPublishing] = useState(false);
+
+  // Global Real-time Build Progress State
+  const [globalBuildState, setGlobalBuildState] = useState<GlobalBuildState>({
+    isBuilding: false,
+    progress: 0,
+    phase: 'idle',
+    statusMessage: '',
+    activeFile: '',
+    codeSnippet: '',
+    modelUsed: 'gemini-3.1-flash-lite',
+    buildChecksum: null,
+  });
+
+  const updateGlobalBuildProgress = (update: Partial<GlobalBuildState>) => {
+    setGlobalBuildState((prev) => ({ ...prev, ...update }));
+  };
+
+  const resetGlobalBuildState = () => {
+    setGlobalBuildState({
+      isBuilding: false,
+      progress: 0,
+      phase: 'idle',
+      statusMessage: '',
+      activeFile: '',
+      codeSnippet: '',
+      modelUsed: 'gemini-3.1-flash-lite',
+      buildChecksum: null,
+    });
+  };
 
   // User Authentication State with local persistence
   const DEFAULT_USER: UserProfile = {
@@ -177,13 +250,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setCurrentUser((prev) => ({ ...prev, plan: planName }));
   };
 
-  // Test Dodo Payments API key directly
-  const testDodoKey = async (keyToTest?: string): Promise<{ valid: boolean; message: string }> => {
+  // Test Secure Payment Gateway API key directly
+  const testPaymentKey = async (keyToTest?: string): Promise<{ valid: boolean; message: string }> => {
     try {
-      const res = await fetch('/api/payments/dodo/test-key', {
+      const res = await fetch('/api/payments/test-key', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ key: keyToTest || dodoKey }),
+        body: JSON.stringify({ key: keyToTest || paymentApiKey }),
       });
       const data = await res.json();
       return {
@@ -194,6 +267,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       return { valid: false, message: err.message || 'Connection failed' };
     }
   };
+  const testDodoKey = testPaymentKey;
 
   // Dedicated Standalone Web Publisher
   const publishWebSite = async (customHtml?: string, customTitle?: string): Promise<string | null> => {
@@ -219,8 +293,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         }));
         addToast(
           lang === 'ar'
-            ? '🚀 تم نشر موقعك كرابط ويب مستقل! يمكنك الآن تصفحه ومشاركته دون أي ربط بجيميناي بيلد.'
-            : '🚀 Standalone web app published! Visit it directly with zero builder chrome.',
+            ? 'تم نشر موقعك كرابط ويب مستقل ومباشر! يمكنك الآن تصفحه ومشاركته كمنظومة مستقلة تماماً.'
+            : 'Standalone web app published! Accessible directly as an independent system.',
           'success'
         );
         return fullLiveUrl;
@@ -264,7 +338,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       const sessionId = urlParams.get('session_id') || '';
 
       // Verify transaction on backend
-      fetch('/api/payments/dodo/verify', {
+      fetch('/api/payments/verify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ sessionId, plan }),
@@ -397,6 +471,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         toggleSidebar,
         isSidebarCollapsed,
         setIsSidebarCollapsed,
+        paymentApiKey,
+        setPaymentApiKey,
         dodoKey,
         setDodoKey,
         userPlan,
@@ -409,6 +485,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setPublishedUrl,
         isPublishing,
         publishWebSite,
+        testPaymentKey,
         testDodoKey,
         environment,
         setEnvironment,
@@ -435,6 +512,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         loginUser,
         logoutUser,
         t,
+        globalBuildState,
+        setGlobalBuildState,
+        updateGlobalBuildProgress,
+        resetGlobalBuildState,
       }}
     >
       {children}

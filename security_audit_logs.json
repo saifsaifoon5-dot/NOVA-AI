@@ -1,0 +1,42 @@
+[
+  {
+    "id": "build_1794173994925",
+    "userEmail": "saifsaifoon5@gmail.com",
+    "event": "BUILD_SYNTHESIS_SUCCESS",
+    "status": "SUCCESS",
+    "ip": "127.0.0.1",
+    "userAgent": "curl/7.88.1",
+    "timestamp": "2026-11-08T21:39:54.925Z",
+    "details": "توليد وبناء تطبيق \"متجر أريج الشرق\" معتمداً برمجياً (SHA-256: 5c09efa75e03b021...)"
+  },
+  {
+    "id": "build_1794173986078",
+    "userEmail": "saifsaifoon5@gmail.com",
+    "event": "BUILD_SYNTHESIS_SUCCESS",
+    "status": "SUCCESS",
+    "ip": "127.0.0.1",
+    "userAgent": "curl/7.88.1",
+    "timestamp": "2026-11-08T21:39:46.078Z",
+    "details": "توليد وبناء تطبيق \"أريج الشرق للعود والعطور\" معتمداً برمجياً (SHA-256: 234de91ad05ccd8f...)"
+  },
+  {
+    "id": "build_1794173976253",
+    "userEmail": "saifsaifoon5@gmail.com",
+    "event": "BUILD_SYNTHESIS_SUCCESS",
+    "status": "SUCCESS",
+    "ip": "127.0.0.1",
+    "userAgent": "curl/7.88.1",
+    "timestamp": "2026-11-08T21:39:36.253Z",
+    "details": "توليد وبناء تطبيق \"جوهر الشرق للعطور\" معتمداً برمجياً (SHA-256: c1ae3b16dea29ff1...)"
+  },
+  {
+    "id": "log_init_01",
+    "userEmail": "saifsaifoon5@gmail.com",
+    "event": "LOGIN_SUCCESS",
+    "status": "SUCCESS",
+    "ip": "192.168.1.104",
+    "userAgent": "NOVA Executive Browser 2026 / macOS",
+    "timestamp": "2026-11-08T21:39:25.274Z",
+    "details": "تسجيل دخول ناجح مع تحقق الأمان المشفر 256-bit"
+  }
+]

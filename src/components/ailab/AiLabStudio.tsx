@@ -18,11 +18,11 @@ import {
 type LabTab = 'playground' | 'vision-ocr' | 'media-synth' | 'agents' | 'rag';
 
 const MODELS = [
-  { id: 'gemini-3.8-flash', name: 'Gemini 3.8 Flash', tag: 'Fast multimodal reasoning', badge: 'Standard' },
-  { id: 'gemini-3.1-flash-lite', name: 'Gemini 3.1 Flash Lite', tag: 'Ultra-fast reasoning & code synthesis', badge: 'Ultra-Lite' },
-  { id: 'gemini-3.1-flash-lite-image', name: 'Imagen 3 Synth', tag: 'Production visuals synthesis', badge: 'Vision' },
-  { id: 'veo-3.1-lite-generate-preview', name: 'Veo 3.1 Lite', tag: 'HD Video motion generation', badge: 'Video' },
-  { id: 'gemini-3.5-transcribe', name: 'Gemini Transcribe & Audio', tag: 'Speech-to-text & voice synthesis', badge: 'Audio' },
+  { id: 'gemini-3.8-flash', name: 'NOVA Architecture Core', tag: 'High-speed systems reasoning', badge: 'Standard' },
+  { id: 'gemini-3.1-flash-lite', name: 'NOVA High-Velocity Synth', tag: 'Instant logic & code synthesis', badge: 'Ultra-Lite' },
+  { id: 'gemini-3.1-flash-lite-image', name: 'NOVA Visual Studio', tag: 'Production visuals synthesis', badge: 'Vision' },
+  { id: 'veo-3.1-lite-generate-preview', name: 'NOVA Dynamic Motion', tag: 'HD Video motion generation', badge: 'Video' },
+  { id: 'gemini-3.5-transcribe', name: 'NOVA Audio Engine', tag: 'Speech-to-text & voice synthesis', badge: 'Audio' },
 ];
 
 export const AiLabStudio: React.FC = () => {

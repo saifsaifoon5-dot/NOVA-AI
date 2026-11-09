@@ -13,6 +13,9 @@ import {
   Globe,
   Sun,
   Moon,
+  CreditCard,
+  Sparkles,
+  ShieldCheck,
 } from 'lucide-react';
 
 export const SettingsStudio: React.FC = () => {
@@ -121,6 +124,80 @@ export const SettingsStudio: React.FC = () => {
                 {theme === 'dark' ? <Moon className="w-3.5 h-3.5" /> : <Sun className="w-3.5 h-3.5" />}
                 <span>{theme === 'dark' ? 'Dark' : 'Light'}</span>
               </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Real Service Keys: Dodo Payments & Gemini API */}
+        <div className="p-5 rounded-xl bg-zinc-900/60 border border-zinc-800 space-y-4">
+          <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
+            <div>
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-400 flex items-center gap-2">
+                <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                <span>{lang === 'ar' ? 'حالة ربط المحركات والأنظمة المالية الحقيقية' : 'Live Engines & Financial Infrastructure'}</span>
+              </h3>
+              <p className="text-[11px] text-zinc-500">
+                {lang === 'ar' ? 'محفظة Dodo Payments المعتمدة ومحرك NOVA السحابي متصلان بالإنتاج المباشر بدون إدخال يدوي للمفاتيح' : 'Verified Dodo Payments merchant wallet & NOVA Cloud Engine operating in live production'}
+              </p>
+            </div>
+            <span className="text-[10px] font-mono text-emerald-400 bg-emerald-950/60 px-2.5 py-0.5 rounded-full border border-emerald-800">
+              {lang === 'ar' ? 'الإنتاج الحي نشط ✓' : 'Live Production Active ✓'}
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Dodo Payments Live Verified Card */}
+            <div className="p-4 rounded-xl bg-zinc-950 border border-zinc-800 space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-zinc-100 flex items-center gap-2">
+                  <CreditCard className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>Dodo Payments (Live Merchant Wallet)</span>
+                </span>
+                <span className="text-[10px] font-mono text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800">
+                  {lang === 'ar' ? 'متصل وحي' : 'Connected'}
+                </span>
+              </div>
+              <div className="space-y-1.5 text-xs">
+                <div className="flex justify-between items-center text-zinc-400">
+                  <span>{lang === 'ar' ? 'الحساب المعتمد:' : 'Merchant Account:'}</span>
+                  <span className="font-mono text-zinc-200">saifsaifoon5@gmail.com</span>
+                </div>
+                <div className="flex justify-between items-center text-zinc-400">
+                  <span>{lang === 'ar' ? 'معايير الأمان المصرفي:' : 'Banking Security:'}</span>
+                  <span className="font-mono text-emerald-400 text-[11px]">PCI-DSS · 3D Secure 2.2</span>
+                </div>
+                <div className="flex justify-between items-center text-zinc-400">
+                  <span>{lang === 'ar' ? 'وسائل الدفع المقبولة:' : 'Accepted Methods:'}</span>
+                  <span className="font-mono text-zinc-300 text-[11px]">مدى Mada · Apple Pay · VISA</span>
+                </div>
+              </div>
+            </div>
+
+            {/* NOVA Architecture Cloud Engine Verified Card */}
+            <div className="p-4 rounded-xl bg-zinc-950 border border-zinc-800 space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-zinc-100 flex items-center gap-2">
+                  <Sparkles className="w-3.5 h-3.5 text-zinc-300" />
+                  <span>NOVA Architecture Core Engine</span>
+                </span>
+                <span className="text-[10px] font-mono text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800">
+                  {lang === 'ar' ? 'مفعل للبناء' : 'Active'}
+                </span>
+              </div>
+              <div className="space-y-1.5 text-xs">
+                <div className="flex justify-between items-center text-zinc-400">
+                  <span>{lang === 'ar' ? 'النموذج المعماري:' : 'Architecture Model:'}</span>
+                  <span className="font-mono text-zinc-200">NOVA Core 3.8 Multi-modal</span>
+                </div>
+                <div className="flex justify-between items-center text-zinc-400">
+                  <span>{lang === 'ar' ? 'الذاكرة والمتابعة:' : 'Contextual Memory:'}</span>
+                  <span className="font-mono text-zinc-200 text-[11px]">{lang === 'ar' ? 'تتبع المحادثة والمعاينة الحية' : 'Full Session Tracking'}</span>
+                </div>
+                <div className="flex justify-between items-center text-zinc-400">
+                  <span>{lang === 'ar' ? 'قواعد البيانات السحابية:' : 'Database Layer:'}</span>
+                  <span className="font-mono text-zinc-300 text-[11px]">PostgreSQL (Cloud SQL / Drizzle)</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>

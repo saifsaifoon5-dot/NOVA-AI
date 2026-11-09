@@ -1,0 +1,21 @@
+{
+  "activePlan": "باقة المؤسسات والذكاء الاصطناعي Pro",
+  "subscriptionStatus": "active",
+  "credits": 60000,
+  "dodoKeyConfigured": true,
+  "dodoKeyMode": "live_production",
+  "dodoKeyFingerprint": "live_dodo_sec_90214...4091",
+  "geminiKeyConfigured": true,
+  "services": {
+    "geminiProArchitecture": true,
+    "cloudRunDeployer": true,
+    "postgresDrizzleProvisioned": true,
+    "sourceCodeZipExport": true,
+    "customDomainSsl": true,
+    "realTimeWebhookSync": true
+  },
+  "lastChargedAmount": 99,
+  "lastChargedCurrency": "USD",
+  "chargedAt": "2026-10-28T09:26:30.061Z",
+  "dodoTransactionId": "TEST-TX-123"
+}
